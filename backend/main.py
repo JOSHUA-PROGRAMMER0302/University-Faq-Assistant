@@ -1,5 +1,6 @@
 import logging
 import time
+from pathlib import Path
 from typing import Optional
 from uuid import uuid4
 
@@ -8,10 +9,14 @@ load_dotenv()
 
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
 from backend.scaledown_service import ScaleDownService
 from backend.rag_engine import RAGEngine
+
+FRONTEND_DIR = Path(__file__).resolve().parent.parent / "frontend"
 
 logging.basicConfig(
     level=logging.INFO,
@@ -264,3 +269,13 @@ async def delete_session(session_id: str) -> dict:
 async def list_sessions() -> dict:
     """List all active sessions with metadata."""
     return {"sessions": sessions}
+
+
+@app.get("/")
+async def serve_frontend():
+    """Serve the frontend index.html."""
+    return FileResponse(FRONTEND_DIR / "index.html")
+
+
+app.mount("/css", StaticFiles(directory=FRONTEND_DIR / "css"), name="css")
+app.mount("/js", StaticFiles(directory=FRONTEND_DIR / "js"), name="js")

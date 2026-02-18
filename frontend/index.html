@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Campus AI — Karunya University</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect rx='12' width='48' height='48' fill='%236C63FF'/><text x='24' y='32' text-anchor='middle' fill='white' font-size='24' font-weight='bold'>U</text></svg>" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        accent: { DEFAULT: '#6C63FF', light: '#8B83FF', dark: '#4F46E5', glow: 'rgba(108,99,255,0.3)' },
+                        surface: { 50: '#f8fafc', 100: '#f1f5f9', 800: '#111128', 900: '#0a0a1a', 950: '#06060f' }
+                    },
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+                    backdropBlur: { '2xl': '40px' },
+                    animation: {
+                        'fade-in': 'fadeIn 0.4s ease-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+                        'typing': 'typing 1.4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: { from: { opacity: 0, transform: 'translateY(8px)' }, to: { opacity: 1, transform: 'translateY(0)' } },
+                        slideUp: { from: { opacity: 0, transform: 'translateY(20px)' }, to: { opacity: 1, transform: 'translateY(0)' } },
+                        pulseGlow: { '0%,100%': { boxShadow: '0 0 20px rgba(108,99,255,0.2)' }, '50%': { boxShadow: '0 0 40px rgba(108,99,255,0.4)' } },
+                        typing: { '0%': { opacity: 0.3 }, '50%': { opacity: 1 }, '100%': { opacity: 0.3 } },
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-surface-900 text-white font-sans min-h-screen overflow-x-hidden">
+
+    <!-- Background Orbs -->
+    <div class="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+        <div class="absolute top-[-10%] left-[15%] w-[500px] h-[500px] rounded-full bg-accent/5 blur-[120px]"></div>
+        <div class="absolute bottom-[-10%] right-[10%] w-[400px] h-[400px] rounded-full bg-blue-500/5 blur-[100px]"></div>
+        <div class="absolute top-[40%] right-[30%] w-[300px] h-[300px] rounded-full bg-purple-500/3 blur-[80px]"></div>
+    </div>
+
+    <div class="relative z-10 flex h-screen">
+
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar-glass w-72 flex-shrink-0 flex flex-col border-r border-white/5 transition-all duration-300">
+            <!-- Logo -->
+            <div class="p-6 border-b border-white/5">
+                <div class="flex items-center gap-3">
+                    <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="24" cy="24" r="23" stroke="url(#logoGrad)" stroke-width="2" fill="none"/>
+                        <path d="M24 8L30 18H18L24 8Z" fill="#6C63FF"/>
+                        <rect x="16" y="20" width="16" height="16" rx="2" fill="#6C63FF" opacity="0.7"/>
+                        <rect x="20" y="24" width="3" height="6" rx="1" fill="white"/>
+                        <rect x="25" y="24" width="3" height="6" rx="1" fill="white"/>
+                        <line x1="14" y1="38" x2="34" y2="38" stroke="#6C63FF" stroke-width="2"/>
+                        <defs><linearGradient id="logoGrad" x1="0" y1="0" x2="48" y2="48">
+                            <stop offset="0%" stop-color="#6C63FF"/>
+                            <stop offset="100%" stop-color="#00D2FF"/>
+                        </linearGradient></defs>
+                    </svg>
+                    <div>
+                        <h1 class="text-lg font-bold bg-gradient-to-r from-white to-accent bg-clip-text text-transparent">Smart Campus AI</h1>
+                        <p class="text-[11px] text-gray-500 tracking-wide">Karunya University</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Info -->
+            <div class="p-5 space-y-4 flex-1 overflow-y-auto">
+                <div class="space-y-2">
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">System</h3>
+                    <div class="glass-card p-3 space-y-2 text-sm">
+                        <div class="flex justify-between"><span class="text-gray-400">Session</span><span class="text-accent font-mono text-xs">karunya_main</span></div>
+                        <div class="flex justify-between"><span class="text-gray-400">Model</span><span class="text-gray-300 text-xs">MiniLM-L6-v2</span></div>
+                        <div class="flex justify-between"><span class="text-gray-400">Status</span><span id="statusBadge" class="text-xs px-2 py-0.5 rounded-full bg-yellow-500/20 text-yellow-400">Connecting...</span></div>
+                    </div>
+                </div>
+
+                <!-- Analytics -->
+                <div class="space-y-2">
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Analytics</h3>
+                    <div class="glass-card p-3 space-y-2 text-sm">
+                        <div class="flex justify-between"><span class="text-gray-400">Queries</span><span id="statQueries" class="text-white font-semibold">0</span></div>
+                        <div class="flex justify-between"><span class="text-gray-400">Avg Confidence</span><span id="statConfidence" class="text-white font-semibold">—</span></div>
+                        <div class="flex justify-between"><span class="text-gray-400">Avg Response</span><span id="statResponseTime" class="text-white font-semibold">—</span></div>
+                    </div>
+                </div>
+
+                <!-- Trending Topics -->
+                <div class="space-y-2">
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">🔥 Trending</h3>
+                    <div id="trendingTopics" class="space-y-1 text-sm text-gray-400">
+                        <p class="italic text-xs">Ask questions to see trends</p>
+                    </div>
+                </div>
+
+                <!-- Theme Toggle -->
+                <div class="space-y-2">
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Theme</h3>
+                    <button id="themeToggle" class="w-full glass-card p-3 text-sm text-gray-300 hover:text-white flex items-center gap-2 transition-colors group">
+                        <span id="themeIcon" class="text-lg">🌙</span>
+                        <span id="themeLabel">Dark Mode</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="p-4 border-t border-white/5 text-center">
+                <p class="text-[11px] text-gray-600">Built by <span class="text-accent font-semibold">JOSHUA ISRAEL</span></p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col min-w-0">
+
+            <!-- Header -->
+            <header class="header-glass px-8 py-5 border-b border-white/5 flex items-center justify-between flex-shrink-0">
+                <div>
+                    <h2 class="text-xl font-bold">University FAQ Assistant</h2>
+                    <p class="text-sm text-gray-400 mt-0.5">Powered by ScaleDown Compression + Semantic Search</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button id="clearChatBtn" class="px-4 py-2 text-sm rounded-xl border border-white/10 text-gray-400 hover:text-white hover:border-accent/50 transition-all duration-200">
+                        🗑️ Clear Chat
+                    </button>
+                    <button id="sidebarToggle" class="lg:hidden p-2 rounded-lg border border-white/10 text-gray-400 hover:text-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Metrics Bar -->
+            <div id="metricsBar" class="px-8 py-4 border-b border-white/5 grid grid-cols-2 md:grid-cols-4 gap-4 flex-shrink-0">
+                <div class="metric-card">
+                    <div class="metric-value" id="metricCompression">~56%</div>
+                    <div class="metric-label">Compression</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="metricChunks">—</div>
+                    <div class="metric-label">Indexed Chunks</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="metricConfidence">—</div>
+                    <div class="metric-label">Last Confidence</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="metricTime">—</div>
+                    <div class="metric-label">Response Time</div>
+                </div>
+            </div>
+
+            <!-- Chat Area -->
+            <div id="chatContainer" class="flex-1 overflow-y-auto px-8 py-6 space-y-4 scroll-smooth">
+                <!-- Welcome State -->
+                <div id="welcomeState" class="flex flex-col items-center justify-center h-full animate-fade-in">
+                    <div class="glass-card p-10 text-center max-w-lg">
+                        <div class="text-5xl mb-4">🎓</div>
+                        <h3 class="text-2xl font-bold mb-2">Welcome to Smart Campus AI</h3>
+                        <p class="text-gray-400 mb-6">Ask anything about Karunya University — policies, admissions, programs, campus life, and more.</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="suggestedQuestions"></div>
+                    </div>
+                </div>
+
+                <!-- Messages will be inserted here -->
+            </div>
+
+            <!-- Input Bar -->
+            <div class="px-8 py-4 border-t border-white/5 flex-shrink-0">
+                <form id="chatForm" class="flex gap-3 items-center">
+                    <div class="flex-1 relative">
+                        <input
+                            id="chatInput"
+                            type="text"
+                            placeholder="Ask anything about Karunya University..."
+                            autocomplete="off"
+                            class="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-accent/60 focus:ring-2 focus:ring-accent/20 transition-all duration-300 backdrop-blur-lg"
+                        />
+                        <div id="typingIndicator" class="hidden absolute right-4 top-1/2 -translate-y-1/2 flex gap-1">
+                            <span class="w-1.5 h-1.5 bg-accent rounded-full animate-typing" style="animation-delay:0ms"></span>
+                            <span class="w-1.5 h-1.5 bg-accent rounded-full animate-typing" style="animation-delay:200ms"></span>
+                            <span class="w-1.5 h-1.5 bg-accent rounded-full animate-typing" style="animation-delay:400ms"></span>
+                        </div>
+                    </div>
+                    <button type="submit" id="sendBtn" class="send-btn p-3.5 rounded-2xl transition-all duration-300 flex items-center justify-center">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                    </button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed bottom-6 right-6 z-50 space-y-2"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
