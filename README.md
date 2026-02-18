@@ -1,8 +1,8 @@
 # 🎓 University FAQ Assistant
 
-**Smart Campus AI — Powered by ScaleDown Compression**
+**Smart Campus AI — Powered by ScaleDown Compression + Semantic Search**
 
-A production-ready AI-powered FAQ assistant for universities. Upload course catalogs, policies, or any campus documentation — the system compresses, indexes, and answers student questions in real-time using semantic search.
+A production-ready AI-powered FAQ assistant for Karunya University (KITS). The system compresses university policy documents, indexes them with FAISS vector search, and answers student questions instantly through a modern glassmorphism web interface — all served from a single FastAPI server.
 
 ---
 
@@ -12,15 +12,19 @@ A production-ready AI-powered FAQ assistant for universities. Upload course cata
 university-faq-assistant/
 │
 ├── backend/
-│   ├── main.py                 # FastAPI server — endpoints, CORS, Pydantic models
-│   ├── scaledown_service.py    # ScaleDown API client with retry & fallback compression
-│   ├── rag_engine.py           # In-memory RAG: chunking → embeddings → FAISS search
+│   ├── main.py                 # FastAPI server — API + static file serving
+│   ├── scaledown_service.py    # ScaleDown API client with retry & fallback
+│   ├── rag_engine.py           # In-memory RAG: chunking → embeddings → FAISS
 │   └── __init__.py
 │
 ├── frontend/
-│   ├── app.py                  # Streamlit UI — dark glassmorphism dashboard
-│   ├── styles.css              # Custom fintech-style CSS
-│   └── __init__.py
+│   ├── index.html              # Main HTML — Tailwind CSS + glassmorphism
+│   ├── css/
+│   │   └── styles.css          # Custom dark/light theme, glass cards, animations
+│   └── js/
+│       ├── api.js              # API client module
+│       ├── chat.js             # Chat UI, typing indicators, toasts, badges
+│       └── app.js              # Main controller, theme toggle, analytics
 │
 ├── requirements.txt
 ├── LICENSE
@@ -30,44 +34,52 @@ university-faq-assistant/
 ### Data Flow
 
 ```
-┌──────────────┐     ┌──────────────────┐     ┌──────────────┐
-│  Streamlit   │────▶│  FastAPI Backend  │────▶│  ScaleDown   │
-│  Frontend    │◀────│  /upload  /ask    │◀────│  API         │
-└──────────────┘     └────────┬─────────┘     └──────────────┘
-                              │
-                    ┌─────────▼─────────┐
-                    │   RAG Engine       │
-                    │  ┌──────────────┐  │
-                    │  │ Sentence     │  │
-                    │  │ Transformers │  │
-                    │  └──────┬───────┘  │
-                    │  ┌──────▼───────┐  │
-                    │  │    FAISS     │  │
-                    │  │  (in-memory) │  │
-                    │  └──────────────┘  │
-                    └───────────────────┘
+┌─────────────────┐     ┌──────────────────────┐     ┌──────────────┐
+│   HTML/JS/CSS   │────▶│   FastAPI Backend     │────▶│  ScaleDown   │
+│   Frontend      │◀────│   /ask  /health       │◀────│  API         │
+│   (port 8000)   │     │   + Static Files      │     └──────────────┘
+└─────────────────┘     └──────────┬───────────┘
+                                   │
+                         ┌─────────▼─────────┐
+                         │    RAG Engine      │
+                         │ ┌───────────────┐  │
+                         │ │  Sentence     │  │
+                         │ │  Transformers │  │
+                         │ │ MiniLM-L6-v2  │  │
+                         │ └───────┬───────┘  │
+                         │ ┌───────▼───────┐  │
+                         │ │  FAISS Index  │  │
+                         │ │  (in-memory)  │  │
+                         │ └───────────────┘  │
+                         └───────────────────┘
 ```
 
 ---
 
 ## Features
 
-- **Text Compression** — ScaleDown API integration with intelligent local fallback
-- **Semantic Search** — FAISS + sentence-transformers for accurate retrieval
-- **In-Memory RAG** — No database required; pure speed
-- **Modern UI** — Dark glassmorphism, animated metrics, ChatGPT-style chat
-- **Suggested FAQs** — One-click common questions
-- **Compression Metrics** — Real-time stats on compression ratio, token reduction, response time
+- **Text Compression** — ScaleDown API with intelligent local fallback compressor
+- **Semantic Search (RAG)** — FAISS + sentence-transformers for contextual retrieval
+- **In-Memory Engine** — No database required; pure speed, zero config
+- **Pre-loaded Data** — Karunya University policies auto-indexed on startup
+- **Modern Web UI** — Glassmorphism dark theme with Tailwind CSS
+- **ChatGPT-style Chat** — Typing indicators, confidence badges, source chips
+- **Suggested FAQs** — 8 one-click question buttons
 - **Dark/Light Toggle** — Theme switching from sidebar
-- **Session Management** — Upload, query, and clear sessions independently
+- **Live Analytics** — Sidebar shows query count, avg confidence, response time
+- **Compression Metrics** — Real-time stats displayed in metric cards
+- **Toast Notifications** — Success/error feedback on every action
+- **Single Server** — Backend API + frontend served on the same port
 
 ---
 
 ## Quick Start
 
-### 1. Install Dependencies
+### 1. Clone & Install
 
 ```bash
+git clone https://github.com/JOSHUA-PROGRAMMER0302/University-Faq-Assistant.git
+cd University-Faq-Assistant
 pip install -r requirements.txt
 ```
 
@@ -77,48 +89,60 @@ pip install -r requirements.txt
 export SCALEDOWN_API_KEY="your-api-key"
 ```
 
-If no API key is set, the system uses an intelligent local fallback compressor.
+If no API key is set, the system uses a local fallback compressor automatically.
 
-### 3. Start the Backend
+### 3. Run
 
 ```bash
 uvicorn backend.main:app --reload --port 8000
 ```
 
-### 4. Start the Frontend
+### 4. Open in Browser
 
-```bash
-streamlit run frontend/app.py
-```
-
-### 5. Open in Browser
-
-Navigate to `http://localhost:8501`
+Navigate to **http://localhost:8000** — that's it, one server for everything.
 
 ---
 
 ## API Endpoints
 
-| Method   | Endpoint              | Description                            |
-|----------|-----------------------|----------------------------------------|
-| `GET`    | `/health`             | Service health check                   |
-| `POST`   | `/upload/text`        | Upload raw text for compression        |
-| `POST`   | `/upload/file`        | Upload a text file                     |
-| `POST`   | `/ask`                | Ask a question against indexed content |
-| `DELETE`  | `/session/{id}`      | Delete a session                       |
-| `GET`    | `/sessions`           | List all active sessions               |
+| Method   | Endpoint              | Description                                |
+|----------|-----------------------|--------------------------------------------|
+| `GET`    | `/`                   | Serve the frontend UI                      |
+| `GET`    | `/health`             | Service health check                       |
+| `GET`    | `/default-session`    | Pre-loaded Karunya session info            |
+| `POST`   | `/ask`               | Ask a question (JSON: `session_id`, `question`) |
+| `GET`    | `/sessions`           | List all active sessions                   |
+| `DELETE`  | `/session/{id}`      | Delete a session                           |
+
+### Example
+
+```bash
+curl -X POST http://localhost:8000/ask \
+  -H "Content-Type: application/json" \
+  -d '{"session_id": "karunya_main", "question": "What is the attendance policy?"}'
+```
 
 ---
 
 ## Tech Stack
 
-| Layer     | Technology                        |
-|-----------|-----------------------------------|
-| Backend   | FastAPI, Pydantic, Uvicorn        |
-| Search    | FAISS, sentence-transformers      |
-| Compress  | ScaleDown API                     |
-| Frontend  | Streamlit, Custom CSS             |
-| ML Model  | all-MiniLM-L6-v2                  |
+| Layer      | Technology                                     |
+|------------|------------------------------------------------|
+| Backend    | FastAPI, Pydantic, Uvicorn                     |
+| Search     | FAISS (`IndexFlatIP`), sentence-transformers   |
+| Compress   | ScaleDown API + Local Fallback                 |
+| Frontend   | HTML, Tailwind CSS, Vanilla JavaScript         |
+| ML Model   | `all-MiniLM-L6-v2` (384-dim embeddings)       |
+| Styling    | Glassmorphism, CSS animations, dark/light mode |
+
+---
+
+## How RAG Works
+
+1. **Chunking** — University text is split into 80-word overlapping windows (20-word overlap)
+2. **Embedding** — Each chunk is encoded into a 384-dim vector using `all-MiniLM-L6-v2`
+3. **Indexing** — Vectors are L2-normalized and stored in a FAISS `IndexFlatIP` index
+4. **Query** — User question is embedded → top-3 similar chunks retrieved → answer composed
 
 ---
 
