@@ -75,15 +75,24 @@ class RAGEngine:
 
     @staticmethod
     def _chunk_text(text: str, chunk_size: int = CHUNK_SIZE, overlap: int = CHUNK_OVERLAP) -> list[str]:
-        words = text.split()
+        import re
+        sections = re.split(r'\n{2,}', text)
         chunks: list[str] = []
-        start = 0
-        while start < len(words):
-            end = start + chunk_size
-            chunk = " ".join(words[start:end])
-            if len(chunk.strip()) > 20:
-                chunks.append(chunk.strip())
-            start += chunk_size - overlap
+        for section in sections:
+            section = section.strip()
+            if not section or len(section) < 20:
+                continue
+            words = section.split()
+            if len(words) <= chunk_size:
+                chunks.append(section)
+            else:
+                start = 0
+                while start < len(words):
+                    end = start + chunk_size
+                    chunk = " ".join(words[start:end])
+                    if len(chunk.strip()) > 20:
+                        chunks.append(chunk.strip())
+                    start += chunk_size - overlap
         return chunks
 
     @staticmethod

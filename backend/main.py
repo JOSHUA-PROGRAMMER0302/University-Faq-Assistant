@@ -48,15 +48,15 @@ UNIVERSITY_DATA = """Karunya University (KITS) operates under a Choice Based Cre
 
 Key Policies & Rules
 
-Academic: 75% attendance is required to appear for examinations. The CBCS system allows flexible learning, and students can earn non-academic (NA) credits through sports or club activities.
+Academic: 75% attendance is required to appear for examinations. The CBCS system allows flexible learning, and students can earn non-academic (NA) credits through sports or club activities. Internal assessment includes assignments, quizzes, mid-semester exams and lab work. Students who fail to meet attendance requirements will be debarred from end-semester exams.
 
 Discipline: Ragging is strictly prohibited and constitutes a punishable, non-bailable offense. A strict dress code is enforced, and students must maintain a respectful and disciplined demeanor.
 
 Safety & Security: The campus uses video surveillance for safety. A zero-tolerance policy exists for harassment and bullying.
 
-Library: Books are issued for 15 days, and a "No Dues" certificate is mandatory for final exams.
+Library: Books are issued for 15 days, and a "No Dues" certificate is mandatory for final exams. The central library has over 80,000 books and access to digital journals. Library hours are 8:00 AM to 8:00 PM on weekdays. Reference books can be used inside the library only. Lost books must be replaced or paid for at twice the current market price.
 
-IT Policy: Only licensed software is permitted; use of pirated software is forbidden.
+IT Policy: Only licensed software is permitted; use of pirated software is forbidden. Wi-Fi is available across the campus. Students receive official university email IDs upon enrollment.
 
 Course Catalog & Academic Offerings
 
@@ -66,15 +66,39 @@ Programs: B.Tech, M.Tech, MBA (with 50% minimum eligibility), B.Com, B.Sc, M.Sc,
 
 Key Subjects: The curriculum includes core subjects alongside value-added courses like NSS, NCC, and personality development.
 
+Hostel & Accommodation
+
+Hostel accommodation is available for both male and female students on campus. To apply for hostel accommodation, students must fill out the hostel application form available at the Student Affairs Office or download it from the university website. The completed form along with the hostel fee receipt must be submitted during the admission process. First-year students are given priority for hostel allotment. Hostel rooms are allotted on a first-come-first-served basis. Each hostel has a warden, and students must follow hostel rules including curfew timings. Hostel mess facilities provide breakfast, lunch, snacks and dinner. Hostel fee is approximately Rs 50,000 to Rs 75,000 per year depending on room type (single, double, or triple sharing). Students must vacate hostels during semester breaks unless prior permission is obtained. Hostel residents are not allowed to use electrical cooking appliances in rooms. Visitors are allowed only in the common area during visiting hours (4 PM to 6 PM on weekends).
+
+Transportation
+
+University bus services are available from Coimbatore city and nearby areas to the campus. Bus passes can be obtained from the transport office. The bus fee varies based on distance. Private vehicles require a campus parking permit.
+
+Examinations & Grading
+
+The university follows a 10-point CGPA grading system. Grade S is for scores 91-100 (grade point 10), Grade A is for 81-90 (grade point 9), Grade B is for 71-80 (grade point 8), Grade C is for 61-70 (grade point 7), Grade D is for 56-60 (grade point 6), Grade E is for 50-55 (grade point 5), Grade F is fail below 50 (grade point 0). Supplementary exams are available for students who fail. Exam schedules are published on the university portal two weeks before exams. Students must carry their ID card to the examination hall.
+
+Scholarships & Financial Aid
+
+Karunya offers merit-based scholarships for academic toppers. Need-based financial aid is available for economically weaker students. Sports scholarship is provided for national and state level athletes. Scholarship applications are reviewed by the scholarship committee each semester. Students must maintain a minimum CGPA of 7.0 to retain merit scholarships.
+
+Clubs & Extracurricular Activities
+
+The university has over 30 student clubs including technical clubs, cultural clubs, sports clubs, and social service clubs. Annual cultural fest called Karunya Carnival is held in February. Technical symposiums are organized by each department. Students can earn activity credits by participating in NCC, NSS, sports, and cultural events. The campus has facilities for cricket, football, basketball, volleyball, tennis, swimming, and athletics.
+
+Placement & Career Services
+
+The Training and Placement Cell assists students with campus placements. Top recruiters include TCS, Infosys, Wipro, Cognizant, HCL, Amazon, and Zoho. Average placement package ranges from 3.5 to 6 LPA. Students must register with the placement cell in their pre-final year. Resume building workshops, mock interviews, and aptitude training are provided. Internship opportunities are facilitated through industry partnerships.
+
 FAQ & General Information
 
-Admission: Based on merit and entrance exams (e.g., CAT/MAT/XAT/KMAT for MBA).
+Admission: Based on merit and entrance exams (e.g., CAT/MAT/XAT/KMAT for MBA). For B.Tech, admission is through KEAM or Karunya entrance exam. Application forms are available online at karunya.edu.
 
-Fees: Detailed in the student handbook, with specific provisions for scholarships and awards.
+Fees: Detailed in the student handbook, with specific provisions for scholarships and awards. B.Tech annual fee is approximately Rs 1,50,000. MBA fee is approximately Rs 1,00,000 per year.
 
-Contact: 1800 889 9888 / 1800 425 4300.
+Contact: 1800 889 9888 / 1800 425 4300. Email: admissions@karunya.edu. University address: Karunya Institute of Technology and Sciences, Karunya Nagar, Coimbatore, Tamil Nadu 641114.
 
-Support: The institution provides counseling and mentoring systems for students."""
+Support: The institution provides counseling and mentoring systems for students. Each student is assigned a faculty mentor. The Student Wellness Center provides mental health counseling services. Anti-ragging helpline is available 24/7."""
 
 DEFAULT_SESSION_ID = "karunya_main"
 
